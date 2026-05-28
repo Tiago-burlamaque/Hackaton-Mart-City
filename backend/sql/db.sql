@@ -1,0 +1,11 @@
+CREATE SCHEMA hackaton_smart_city;
+
+USE hackaton_smart_city;
+
+CREATE TABLE usuario(
+	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255) NOT NULL,
+    email VARCHAR(225) UNIQUE NOT NULL,
+    cpf VARCHAR(100) UNIQUE NOT NULL,
+    senha CHAR(64) NOT NULL
+);
