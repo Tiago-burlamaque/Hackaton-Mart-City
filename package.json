@@ -1,0 +1,21 @@
+{
+  "name": "hackaton-mart-city",
+  "version": "1.0.0",
+  "description": "<ul>\r   <li>\r     <h2>\r       Tiago\r     </h2>\r   </li>\r   <li>\r     <h2>\r       Elionai\r     </h2>\r   </li>\r   <li>\r     <h2>\r       Alexandre\r     </h2>\r   </li>\r   <li>\r     <h2>\r       Yuri\r     </h2>\r   </li>\r   <li>\r     <h2>\r       Philip\r     </h2>\r   </li>\r </ul>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tiago-burlamaque/Hackaton-Mart-City.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Tiago-burlamaque/Hackaton-Mart-City/issues"
+  },
+  "homepage": "https://github.com/Tiago-burlamaque/Hackaton-Mart-City#readme"
+}
