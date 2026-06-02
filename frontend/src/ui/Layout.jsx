@@ -1,17 +1,17 @@
 import { Outlet } from "react-router-dom"
-import Navbar from "../components/Navbar"
+import SideBar from "../components/SideBar"
 
 function Layout() {
     return (
-        <section className='h-screen flex flex-col'>
-            <nav className="w-full h-50 flex flex items-center justify-center fixed">
-                <Navbar />
-            </nav>
+        <div className='flex h-screen bg-[#3a867c]'>
+            <div>
+                <SideBar />
+            </div>
 
-            <main>
+            <section className="h-screen justify-center items-center flex w-full">
                 <Outlet />
-            </main>
-        </section>
+            </section>
+        </div>
     )
 }
 

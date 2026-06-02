@@ -18,7 +18,7 @@ export const createUser = async (req, res) => {
 
         // Verificar se email ou cpf já existem
         const [userExists] = await db.query(
-            `SELECT * FROM usuario 
+            `SELECT * FROM usuarios 
              WHERE email = ? OR cpf = ?`,
             [email, cpf]
         );
@@ -35,7 +35,7 @@ export const createUser = async (req, res) => {
 
         // Inserir usuário
         await db.query(
-            `INSERT INTO usuario 
+            `INSERT INTO usuarios 
             (nome, email, cpf, senha)
             VALUES (?, ?, ?, ?)`,
             [nome, email, cpf, hashSenha]
@@ -76,7 +76,7 @@ export const login = async (req, res) => {
 
         // Busca usuário
         const [rows] = await db.query(
-            `SELECT * FROM usuario WHERE email = ?`,
+            `SELECT * FROM usuarios WHERE email = ?`,
             [email]
         );
 
@@ -134,3 +134,4 @@ export const login = async (req, res) => {
         });
     }
 };
+

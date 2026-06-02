@@ -7,6 +7,8 @@ import Login from './pages/Login.jsx'
 import Cadastro from './pages/Cadastro.jsx'
 import Layout from './ui/Layout.jsx'
 import Home from './pages/Home.jsx'
+import SuaConta from './pages/SuaConta.jsx'
+import Trafego from './pages/Trafego.jsx'
 
 const router = createBrowserRouter([
   { path: "/", element: <Login /> },
@@ -15,7 +17,9 @@ const router = createBrowserRouter([
   {
     element: <Layout />,
     children: ([
-      { path: "/home", element: <Home />}
+      { path: "/home", element: <Home /> },
+      { path: "/yourAccout", element: <SuaConta /> },
+      { path: "/trafego", element: <Trafego /> },
     ])
   }
 ])

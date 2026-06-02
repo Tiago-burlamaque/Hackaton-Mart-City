@@ -4,6 +4,7 @@ import "./style.css";
 import axios from 'axios'
 import { useState } from "react";
 import { toast } from 'react-toastify'
+import { InputMask } from 'primereact/inputmask'
 
 function Cadastro() {
 
@@ -74,11 +75,13 @@ function Cadastro() {
             onChange={(e) => setEmail(e.target.value)}
           />
 
-          <input
+          <InputMask
             type="text"
             placeholder="CPF"
             value={cpf}
             onChange={(e) => setCpf(e.target.value)}
+            mask="999.999.999-99"
+            placeholder="999.999.999-99"
           />
 
           <input

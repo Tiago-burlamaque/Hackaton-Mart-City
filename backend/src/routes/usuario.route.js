@@ -6,4 +6,5 @@ const userRouter = Router()
 userRouter.post('/registro', createUser)
 userRouter.post('/login', login)
 
+
 export default userRouter;

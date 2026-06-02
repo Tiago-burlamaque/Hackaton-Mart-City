@@ -41,8 +41,8 @@ function Login() {
   return (
     <div className="container">
       <div className="left">
-        <h1>Smart Traffic</h1>
-        <p>
+        <h1 className="poppins-extrabold">Smart Traffic</h1>
+        <p className="poppins-extralight">
           Monitoramento inteligente para um trânsito mais seguro.
         </p>
 
@@ -54,13 +54,14 @@ function Login() {
 
       <div className="right">
         <form className="form" onSubmit={handleLogin}>
-          <h2>Login</h2>
+          <h2 className="text-4xl poppins-extrabold">Login</h2>
 
           <input
             type="email"
             placeholder="Digite seu email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className="poppins-bold text-2xl"
           />
 
           <input
@@ -68,12 +69,13 @@ function Login() {
             placeholder="Digite sua senha"
             value={senha}
             onChange={(e) => setSenha(e.target.value)}
+            className="poppins-bold text-2xl"
           />
 
-          <button type="submit">Entrar</button>
+          <button type="submit" className="poppins-extrabold">Entrar</button>
 
-          <span>
-            Não possui conta? <Link to="/cadastro">Criar Cadastro</Link>
+          <span className="poppins-bold">
+            Não possui conta? <Link to="/cadastro" className="poppins-extrabold">Criar Cadastro</Link>
           </span>
         </form>
       </div>
