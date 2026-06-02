@@ -1,5 +1,5 @@
 // pages/Login.jsx
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./style.css";
 import { useState } from "react";
 import axios from "axios";
@@ -9,6 +9,8 @@ function Login() {
 
   const [email, setEmail] = useState('')
   const [senha, setSenha] = useState('')
+
+  const navigate = useNavigate()
 
   const handleLogin = async (e) => {
     e.preventDefault()
@@ -26,7 +28,7 @@ function Login() {
       console.log(res.data.token)
       console.log(res.data.usuario)
 
-
+      navigate("/home")
 
     } catch (error) {
       if (error.status === 500) {

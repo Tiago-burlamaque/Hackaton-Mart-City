@@ -109,5 +109,3 @@ Front-end: HTML/CSS/JS puro com Bootstrap ou Tailwind (para os cards e tabelas) 
 Back-end: Node.js com Express e Socket.io (pela facilidade e velocidade de configurar o tempo real).
 
 Apresentar o projeto dessa forma vai fazer os alunos enxergarem exatamente como o desenvolvimento de sistemas resolve problemas complexos do mundo real, além de dar ótimas ideias para os TCCs deles!
-
-

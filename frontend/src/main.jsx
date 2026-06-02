@@ -1,12 +1,28 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import App from './App.jsx'
 import { Bounce, ToastContainer } from 'react-toastify'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import Login from './pages/Login.jsx'
+import Cadastro from './pages/Cadastro.jsx'
+import Layout from './ui/Layout.jsx'
+import Home from './pages/Home.jsx'
+
+const router = createBrowserRouter([
+  { path: "/", element: <Login /> },
+  { path: "/cadastro", element: <Cadastro /> },
+
+  {
+    element: <Layout />,
+    children: ([
+      { path: "/home", element: <Home />}
+    ])
+  }
+])
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    <RouterProvider router={router} />
     <ToastContainer
       position="top-right"
       autoClose={5000}
