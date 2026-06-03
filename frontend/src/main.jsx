@@ -1,44 +1,16 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import { Bounce, ToastContainer } from 'react-toastify'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Login from './pages/Login.jsx'
-import Cadastro from './pages/Cadastro.jsx'
-import Layout from './ui/Layout.jsx'
-import Home from './pages/Home.jsx'
-import SuaConta from './pages/SuaConta.jsx'
-import Trafego from './pages/Trafego.jsx'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import App from "./App.jsx";
+import "./index.css";
 
-const router = createBrowserRouter([
-  { path: "/", element: <Login /> },
-  { path: "/cadastro", element: <Cadastro /> },
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-  {
-    element: <Layout />,
-    children: ([
-      { path: "/home", element: <Home /> },
-      { path: "/yourAccout", element: <SuaConta /> },
-      { path: "/trafego", element: <Trafego /> },
-    ])
-  }
-])
-
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router} />
-    <ToastContainer
-      position="top-right"
-      autoClose={5000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick={false}
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      theme="dark"
-      transition={Bounce}
-    />
-  </StrictMode>,
-)
+    <>
+      <App />
+      <ToastContainer />
+    </>
+  </StrictMode>
+);

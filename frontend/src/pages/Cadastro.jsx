@@ -1,71 +1,72 @@
-// pages/Cadastro.jsx
 import { Link, useNavigate } from "react-router-dom";
-import "./style.css";
-import axios from 'axios'
+import "../App.css";
 import { useState } from "react";
-import { toast } from 'react-toastify'
-import { InputMask } from 'primereact/inputmask'
+import axios from "axios";
+import { toast } from "react-toastify";
 
 function Cadastro() {
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
+  const [cpf, setCpf] = useState("");
+  const [senha, setSenha] = useState("");
+  const [confirmarSenha, setConfirmarSenha] = useState("");
+  const [loading, setLoading] = useState(false); // Evita cliques duplicados
 
-  const [nome, setNome] = useState('')
-  const [email, setEmail] = useState('')
-  const [senha, setSenha] = useState('')
-  const [confirmarSenha, setConfirmarSenha] = useState('')
-  const [cpf, setCpf] = useState('')
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleRegister = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
+
+    // 1. Validação básica com trim para ignorar espaços vazios acidentais
+    if (!nome.trim() || !email.trim() || !cpf.trim() || !senha || !confirmarSenha) {
+      return toast.warning("Preencha todos os campos.");
+    }
 
     if (senha !== confirmarSenha) {
-      return toast.warning("As senhas não considem.")
+      return toast.warning("As senhas não coincidem.");
     }
-    try {
-      await axios.post("http://localhost:3000/user/registro", {
-        nome: nome,
-        email: email,
-        cpf: cpf,
-        senha: senha
-      })
 
-      toast.success("Usuário criado com sucesso")
-      navigate('/')
+    try {
+      setLoading(true);
+
+      // Envia os dados limpos ao backend
+      await axios.post("http://localhost:5000/cadastro", {
+        nome: nome.trim(),
+        email: email.trim(),
+        cpf: cpf.trim(),
+        senha: senha,
+      });
+
+      toast.success("Usuário cadastrado com sucesso!");
+      navigate("/");
     } catch (error) {
-      if (error.status === 409) {
-        return toast.warning("Usuário já cadastrado")
+      console.error(error);
+
+      // Captura tanto o status 400 (do nosso server) quanto o 409
+      if (error.response?.status === 400 || error.response?.status === 409) {
+        return toast.warning(error.response?.data?.message || "Usuário já cadastrado.");
       }
-      if (error.status === 500) {
-        return toast.error("Erro interno no servidor. ", error)
-      }
+
+      toast.error(
+        error.response?.data?.message || "Erro ao cadastrar usuário."
+      );
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="container">
-      <div className="left">
-        <h1>Smart Traffic</h1>
+      <div className="box">
+        <h1>🚦 Smart Traffic</h1>
 
-        <p>
-          Cadastro de operadores e administradores do sistema.
-        </p>
-
-        <img
-          src="https://cdn-icons-png.flaticon.com/512/3209/3209265.png"
-          alt="Cidade Inteligente"
-        />
-      </div>
-
-      <div className="right">
-        <form className="form" onSubmit={handleRegister}>
-          <h2>Cadastro</h2>
-
+        <form onSubmit={handleRegister}>
           <input
             type="text"
             placeholder="Nome completo"
             value={nome}
             onChange={(e) => setNome(e.target.value)}
+            disabled={loading}
           />
 
           <input
@@ -73,15 +74,15 @@ function Cadastro() {
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            disabled={loading}
           />
 
-          <InputMask
+          <input
             type="text"
             placeholder="CPF"
             value={cpf}
             onChange={(e) => setCpf(e.target.value)}
-            mask="999.999.999-99"
-            placeholder="999.999.999-99"
+            disabled={loading}
           />
 
           <input
@@ -89,6 +90,7 @@ function Cadastro() {
             placeholder="Senha"
             value={senha}
             onChange={(e) => setSenha(e.target.value)}
+            disabled={loading}
           />
 
           <input
@@ -96,20 +98,17 @@ function Cadastro() {
             placeholder="Confirmar senha"
             value={confirmarSenha}
             onChange={(e) => setConfirmarSenha(e.target.value)}
+            disabled={loading}
           />
 
-          {/* <select>
-            <option>Selecione o cargo</option>
-            <option>Administrador</option>
-            <option>Operador</option>
-            <option>Emergência</option>
-          </select> */}
+          <button type="submit" disabled={loading}>
+            {loading ? "Cadastrando..." : "Cadastrar"}
+          </button>
 
-          <button type="submit">Cadastrar</button>
-
-          <span>
-            Já possui conta? <Link to="/">Fazer Login</Link>
-          </span>
+          <p>
+            Já possui conta?{" "}
+            <Link to="/">Fazer Login</Link>
+          </p>
         </form>
       </div>
     </div>

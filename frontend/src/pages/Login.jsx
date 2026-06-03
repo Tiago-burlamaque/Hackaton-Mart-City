@@ -1,87 +1,92 @@
-// pages/Login.jsx
 import { Link, useNavigate } from "react-router-dom";
-import "./style.css";
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import "../App.css";
 
 function Login() {
+    const [email, setEmail] = useState("");
+    const [senha, setSenha] = useState("");
+    const [loading, setLoading] = useState(false); // Estado para evitar múltiplos cliques
 
-  const [email, setEmail] = useState('')
-  const [senha, setSenha] = useState('')
+    const navigate = useNavigate();
 
-  const navigate = useNavigate()
+    const handleLogin = async (e) => {
+        e.preventDefault();
 
-  const handleLogin = async (e) => {
-    e.preventDefault()
+        // 1. Validação básica de campos
+        if (!email.trim() || !senha.trim()) {
+            return toast.warning("Preencha todos os campos.");
+        }
 
-    try {
-      const res = await axios.post("http://localhost:3000/user/login", {
-        email: email,
-        senha: senha
-      })
-      toast.success("Usuário logado com sucesso.")
+        try {
+            setLoading(true);
 
-      localStorage.setItem("token", res.data.token)
-      localStorage.setItem("usuario", JSON.stringify(res.data.usuario))
+            const res = await axios.post("http://localhost:5000/login", {
+                email: email.trim(),
+                senha,
+            });
 
-      console.log(res.data.token)
-      console.log(res.data.usuario)
+            // 2. Validação da resposta do servidor
+            if (!res.data || !res.data.token) {
+                throw new Error("Resposta do servidor inválida. Token não encontrado.");
+            }
 
-      navigate("/home")
+            // 3. Salvando de forma segura
+            localStorage.setItem("token", res.data.token);
 
-    } catch (error) {
-      if (error.status === 500) {
-        toast.error("Erro interno no servidor.")
-        return console.log("Erro interno no servidor. ", error)
-      }
-    }
-  }
+            if (res.data.usuario) {
+                localStorage.setItem("usuario", JSON.stringify(res.data.usuario));
+            }
 
-  return (
-    <div className="container">
-      <div className="left">
-        <h1 className="poppins-extrabold">Smart Traffic</h1>
-        <p className="poppins-extralight">
-          Monitoramento inteligente para um trânsito mais seguro.
-        </p>
+            toast.success("Login realizado com sucesso!");
+            navigate("/home");
 
-        <img
-          src="https://cdn-icons-png.flaticon.com/512/2972/2972185.png"
-          alt="Semáforo"
-        />
-      </div>
+        } catch (error) {
+            console.error("Erro no login:", error);
 
-      <div className="right">
-        <form className="form" onSubmit={handleLogin}>
-          <h2 className="text-4xl poppins-extrabold">Login</h2>
+            // Trata erros de resposta do servidor ou erros disparados manualmente no try
+            const mensagemErro = error.response?.data?.message || error.message || "Email ou senha inválidos.";
+            toast.error(mensagemErro);
+        } finally {
+            setLoading(false); // Desativa o loading independente de sucesso ou erro
+        }
+    };
 
-          <input
-            type="email"
-            placeholder="Digite seu email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="poppins-bold text-2xl"
-          />
+    return (
+        <div className="container">
+            <div className="box">
+                <h1>🚦 Smart Traffic</h1>
 
-          <input
-            type="password"
-            placeholder="Digite sua senha"
-            value={senha}
-            onChange={(e) => setSenha(e.target.value)}
-            className="poppins-bold text-2xl"
-          />
+                <form onSubmit={handleLogin}>
+                    <input
+                        type="email"
+                        placeholder="Digite seu email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        disabled={loading}
+                    />
 
-          <button type="submit" className="poppins-extrabold">Entrar</button>
+                    <input
+                        type="password"
+                        placeholder="Digite sua senha"
+                        value={senha}
+                        onChange={(e) => setSenha(e.target.value)}
+                        disabled={loading}
+                    />
 
-          <span className="poppins-bold">
-            Não possui conta? <Link to="/cadastro" className="poppins-extrabold">Criar Cadastro</Link>
-          </span>
-        </form>
-      </div>
-    </div>
-  );
+                    <button type="submit" disabled={loading}>
+                        {loading ? "Carregando..." : "Entrar"}
+                    </button>
+
+                    <p>
+                        Não possui conta?{" "}
+                        <Link to="/cadastro">Criar Cadastro</Link>
+                    </p>
+                </form>
+            </div>
+        </div>
+    );
 }
 
 export default Login;
-
